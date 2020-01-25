@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.thoughtworks.btstethoscope.R
+import com.thoughtworks.btstethoscope.definitions.State
 import com.thoughtworks.btstethoscope.utils.PermissionManager
 import com.thoughtworks.btstethoscope.utils.find
 import kotlin.system.exitProcess
@@ -17,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     private val btnStartStop by lazy { find<Button>(R.id.btn_start_stop) }
     private val spRecordDuration by lazy { find<Spinner>(R.id.sp_record_duration) }
+    private val tvState by lazy { find<TextView>(R.id.tv_state) }
 
     private lateinit var viewModel: MainViewModel
 
@@ -58,6 +61,19 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.isStarted.observe(this, Observer {
             btnStartStop.text = if (it) getString(R.string.stop) else getString(R.string.start)
+            spRecordDuration.isEnabled = !it
+        })
+
+        viewModel.scheduleBusy.observe(this, Observer {
+            btnStartStop.isEnabled = !it
+        })
+
+        viewModel.state.observe(this, Observer {
+            when (it) {
+                State.IDLE -> tvState.text = getString(R.string.idle)
+                State.RECORDING -> tvState.text = getString(R.string.recording)
+                State.PLAYING -> tvState.text = getString(R.string.playing)
+            }
         })
 
         initUI()
@@ -65,7 +81,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initUI() {
         btnStartStop.setOnClickListener {
-            viewModel.startOrStop()
+            val seconds = Integer.parseInt(spRecordDuration.selectedItem.toString())
+            viewModel.startOrStop(seconds)
         }
 
         ArrayAdapter.createFromResource(

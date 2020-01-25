@@ -3,6 +3,9 @@
     <string name="start">start</string>
     <string name="stop">stop</string>
     <string name="record_duration">record duration (seconds)</string>
+    <string name="idle">idle</string>
+    <string name="recording">recording</string>
+    <string name="playing">playing</string>
     <string-array name="seconds">
         <item>5</item>
         <item>10</item>

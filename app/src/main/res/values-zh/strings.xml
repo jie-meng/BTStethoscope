@@ -3,4 +3,7 @@
     <string name="start">开始</string>
     <string name="stop">停止</string>
     <string name="record_duration">录制时长(秒)</string>
+    <string name="idle">空闲</string>
+    <string name="recording">录音中</string>
+    <string name="playing">播放中</string>
 </resources>

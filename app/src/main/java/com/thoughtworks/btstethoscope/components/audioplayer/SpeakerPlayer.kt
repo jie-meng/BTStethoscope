@@ -5,21 +5,30 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Environment
+import android.os.SystemClock
+import com.thoughtworks.btstethoscope.definitions.ASSETS_SOUND_PLAYING
 import com.thoughtworks.btstethoscope.definitions.RECORD_FILENAME
+import com.thoughtworks.btstethoscope.utils.PlaySoundInAssetsUtils
 import java.io.File
 
 
 class SpeakerPlayer(private val context: Context) : AudioPlayer {
 
-    override fun play() {
-        val mp = MediaPlayer()
-        mp.setDataSource(Environment.getExternalStorageDirectory().absolutePath + File.separator + RECORD_FILENAME)
-        mp.setAudioAttributes(
+    private var mediaPlayer = MediaPlayer()
+
+    override fun start() {
+        mediaPlayer = MediaPlayer()
+        mediaPlayer.setDataSource(Environment.getExternalStorageDirectory().absolutePath + File.separator + RECORD_FILENAME)
+        mediaPlayer.setAudioAttributes(
             AudioAttributes.Builder()
                 .setLegacyStreamType(AudioManager.STREAM_MUSIC)
                 .build()
         )
-        mp.prepare()
-        mp.start()
+        mediaPlayer.prepare()
+        mediaPlayer.start()
+    }
+
+    override fun stop() {
+        mediaPlayer.stop()
     }
 }

@@ -19,6 +19,8 @@ class BluetoothVoiceAudioRecorder(private val context: Context) : AudioRecorder 
 
     private lateinit var mediaRecorder: MediaRecorder
 
+    private var started = false
+
     override fun start(): Pair<Boolean, String> {
         val manager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
@@ -55,13 +57,21 @@ class BluetoothVoiceAudioRecorder(private val context: Context) : AudioRecorder 
 
         mediaRecorder.prepare()
         mediaRecorder.start()
+
+        started = true
     }
 
     override fun stop() {
+        if (!started) {
+            return
+        }
+
         mediaRecorder.stop()
         mediaRecorder.release()
 
         AudioUtils.changeToSpeaker(context!!)
+
+        started = false
     }
 
     override fun isRecording(): Boolean {
