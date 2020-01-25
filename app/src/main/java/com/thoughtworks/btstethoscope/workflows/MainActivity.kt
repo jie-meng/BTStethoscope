@@ -2,7 +2,9 @@ package com.thoughtworks.btstethoscope.workflows
 
 import android.Manifest
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,6 +16,7 @@ import kotlin.system.exitProcess
 class MainActivity : AppCompatActivity() {
 
     private val btnStartStop by lazy { find<Button>(R.id.btn_start_stop) }
+    private val spRecordDuration by lazy { find<Spinner>(R.id.sp_record_duration) }
 
     private lateinit var viewModel: MainViewModel
 
@@ -63,6 +66,15 @@ class MainActivity : AppCompatActivity() {
     private fun initUI() {
         btnStartStop.setOnClickListener {
             viewModel.startOrStop()
+        }
+
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.seconds,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spRecordDuration.adapter = adapter
         }
     }
 }

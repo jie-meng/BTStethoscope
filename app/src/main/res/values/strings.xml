@@ -2,4 +2,16 @@
     <string name="app_name">BTStethoscope</string>
     <string name="start">start</string>
     <string name="stop">stop</string>
+    <string name="record_duration">record duration (seconds)</string>
+    <string-array name="seconds">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
+    </string-array>
 </resources>

@@ -9,6 +9,7 @@ import android.media.MediaRecorder
 import android.os.Environment
 import android.util.Log
 import com.thoughtworks.btstethoscope.definitions.APP_TAG
+import com.thoughtworks.btstethoscope.definitions.RECORD_FILENAME
 import com.thoughtworks.btstethoscope.utils.AudioUtils
 import java.io.File
 
@@ -49,7 +50,7 @@ class BluetoothVoiceAudioRecorder(private val context: Context) : AudioRecorder 
         mediaRecorder = MediaRecorder()
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT)
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-        mediaRecorder.setOutputFile(Environment.getExternalStorageDirectory().absolutePath + File.separator + "record.mp3")
+        mediaRecorder.setOutputFile(Environment.getExternalStorageDirectory().absolutePath + File.separator + RECORD_FILENAME)
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
 
         mediaRecorder.prepare()
