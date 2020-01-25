@@ -1,26 +1,58 @@
 package com.thoughtworks.btstethoscope.components.audioplayer
 
 import android.content.Context
-import android.media.AudioManager
-import android.media.MediaPlayer
-import android.os.Environment
+import android.media.AudioFormat
+import android.media.AudioRecord
+import com.github.piasy.rxandroidaudio.StreamAudioRecorder
+import com.thoughtworks.btstethoscope.components.audiorecorder.AudioCache
+import com.thoughtworks.btstethoscope.definitions.SAMPLE_RATE_IN_HERTZ
 import com.thoughtworks.btstethoscope.utils.StreamAudioPlayerEx
-import java.io.File
 
 
-class SpeakerPlayer(private val context: Context) : AudioPlayer {
+class SpeakerPlayer(
+    private val context: Context,
+    private val audioCache: AudioCache
+) : AudioPlayer {
 
 //    private val streamAudioPlayer = StreamAudioPlayerEx.getInstance()
 
     override fun play() {
 //        streamAudioPlayer.init()
 
+        val audioPlayer = StreamAudioPlayerEx.getInstance()
+        val bufferSize = AudioRecord.getMinBufferSize(
+            SAMPLE_RATE_IN_HERTZ,
+            AudioFormat.CHANNEL_IN_MONO,
+            AudioFormat.ENCODING_PCM_16BIT
+        )
+
+        audioPlayer.init(
+            false,
+            SAMPLE_RATE_IN_HERTZ,
+            AudioFormat.CHANNEL_OUT_MONO,
+            AudioFormat.ENCODING_PCM_16BIT,
+            bufferSize * 10
+        )
+        val audioBytes = audioCache.asByteArray()
+        audioPlayer.play(audioBytes, audioBytes.size)
+
         try {
-            var mp = MediaPlayer()
-            mp.setDataSource(Environment.getExternalStorageDirectory().absolutePath + File.separator + "record.mp3")
-            mp.setAudioStreamType(AudioManager.STREAM_MUSIC)
-            mp.prepare()
-            mp.start()
+//            val audioTrack = AudioTrack(
+//                AudioManager.STREAM_MUSIC,
+//                SAMPLE_RATE_IN_HERTZ,
+//                AudioFormat.CHANNEL_OUT_MONO,
+//                AudioFormat.ENCODING_PCM_16BIT,
+//                audioCache.getSize(),  //buffer length in bytes
+//                AudioTrack.MODE_STATIC
+//            )
+//            audioTrack.write(audioCache.asByteArray(), 0, audioCache.getSize())
+//            audioTrack.play()
+
+//            var mp = MediaPlayer()
+//            mp.setDataSource(Environment.getExternalStorageDirectory().absolutePath + File.separator + "record.mp3")
+//            mp.setAudioStreamType(AudioManager.STREAM_MUSIC)
+//            mp.prepare()
+//            mp.start()
 
 //            val inputStream = FileInputStream(Environment.getExternalStorageDirectory().absolutePath + File.separator + "record.mp3")
 //
@@ -33,7 +65,7 @@ class SpeakerPlayer(private val context: Context) : AudioPlayer {
 //            inputStream.close()
 //            streamAudioPlayer.release()
         } catch (e: Exception) {
-
+            print(e)
         }
     }
 }

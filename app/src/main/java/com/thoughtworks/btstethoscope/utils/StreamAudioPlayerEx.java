@@ -9,9 +9,10 @@ import androidx.annotation.WorkerThread;
 
 import com.github.piasy.rxandroidaudio.StreamAudioRecorder;
 
+import static com.thoughtworks.btstethoscope.definitions.ConstantsKt.SAMPLE_RATE_IN_HERTZ;
+
 public final class StreamAudioPlayerEx {
     private static final String TAG = "StreamAudioPlayerEx";
-    public static final int DEFAULT_SAMPLE_RATE = 44100;
 
     private AudioTrack mAudioTrack;
 
@@ -28,7 +29,7 @@ public final class StreamAudioPlayerEx {
     }
 
     public synchronized void init() {
-        init(false, DEFAULT_SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT,
+        init(false, SAMPLE_RATE_IN_HERTZ, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT,
                 StreamAudioRecorder.DEFAULT_BUFFER_SIZE);
     }
 

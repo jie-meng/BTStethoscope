@@ -6,6 +6,8 @@ import com.thoughtworks.btstethoscope.components.audioplayer.AudioPlayer
 import com.thoughtworks.btstethoscope.components.audioplayer.SpeakerPlayer
 import com.thoughtworks.btstethoscope.components.audiorecorder.BluetoothVoiceAudioRecorder
 import com.thoughtworks.btstethoscope.components.audiorecorder.AudioRecorder
+import com.thoughtworks.btstethoscope.components.audiorecorder.AudioCache
+import com.thoughtworks.btstethoscope.components.audiorecorder.AudioCacheImp
 import com.thoughtworks.btstethoscope.components.tts.SystemTTS
 import com.thoughtworks.btstethoscope.components.tts.TTS
 import dagger.Module
@@ -29,13 +31,19 @@ class AppModule(private val application: Application) {
 
     @Singleton
     @Provides
-    fun provideAudioRecorder(context: Context): AudioRecorder {
-        return BluetoothVoiceAudioRecorder(context)
+    fun provideAudioCache(): AudioCache {
+        return AudioCacheImp()
     }
 
     @Singleton
     @Provides
-    fun provideAudioPlayer(context: Context): AudioPlayer {
-        return SpeakerPlayer(context)
+    fun provideAudioRecorder(context: Context, audioCache: AudioCache): AudioRecorder {
+        return BluetoothVoiceAudioRecorder(context, audioCache)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAudioPlayer(context: Context, audioCache: AudioCache): AudioPlayer {
+        return SpeakerPlayer(context, audioCache)
     }
 }
