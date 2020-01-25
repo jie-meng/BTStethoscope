@@ -6,4 +6,6 @@
     <string name="idle">空闲</string>
     <string name="recording">录音中</string>
     <string name="playing">播放中</string>
+    <string name="internal_audio_recorder">设备音频录音</string>
+    <string name="bluetooth_audio_recorder">蓝牙音频录音</string>
 </resources>

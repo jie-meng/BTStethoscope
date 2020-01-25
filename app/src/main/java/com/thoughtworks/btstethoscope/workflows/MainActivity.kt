@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private val btnStartStop by lazy { find<Button>(R.id.btn_start_stop) }
     private val spRecordDuration by lazy { find<Spinner>(R.id.sp_record_duration) }
     private val tvState by lazy { find<TextView>(R.id.tv_state) }
+    private val tvAudioRecorderName by lazy { find<TextView>(R.id.tv_audio_recorder_name) }
 
     private lateinit var viewModel: MainViewModel
 
@@ -28,6 +29,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         initPermissions()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        exitProcess(0)
     }
 
     private fun initPermissions() {
@@ -58,6 +64,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun initialize() {
         viewModel = ViewModelProviders.of(this)[MainViewModel::class.java]
+
+        viewModel.audioRecorderName.observe(this, Observer {
+            tvAudioRecorderName.text = it
+        })
 
         viewModel.isStarted.observe(this, Observer {
             btnStartStop.text = if (it) getString(R.string.stop) else getString(R.string.start)

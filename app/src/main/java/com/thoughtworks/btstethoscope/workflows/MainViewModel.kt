@@ -2,11 +2,9 @@ package com.thoughtworks.btstethoscope.workflows
 
 import android.app.Application
 import android.os.SystemClock
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.thoughtworks.btstethoscope.App
-import com.thoughtworks.btstethoscope.definitions.APP_TAG
 import com.thoughtworks.btstethoscope.definitions.State
 import com.thoughtworks.btstethoscope.utils.VibrateUtils
 import io.reactivex.Observable
@@ -26,6 +24,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var isStarted = MutableLiveData(false)
     var state = MutableLiveData(State.IDLE)
     var scheduleBusy = MutableLiveData(false)
+    var audioRecorderName = MutableLiveData(recorder.name())
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -45,6 +44,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         if (isStarted.value!!) {
             stopSchedule()
         }
+
+        compositeDisposable.clear()
 
         super.onCleared()
     }

@@ -5,10 +5,7 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Environment
-import android.os.SystemClock
-import com.thoughtworks.btstethoscope.definitions.ASSETS_SOUND_PLAYING
 import com.thoughtworks.btstethoscope.definitions.RECORD_FILENAME
-import com.thoughtworks.btstethoscope.utils.PlaySoundInAssetsUtils
 import java.io.File
 
 

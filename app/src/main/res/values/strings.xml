@@ -6,6 +6,8 @@
     <string name="idle">idle</string>
     <string name="recording">recording</string>
     <string name="playing">playing</string>
+    <string name="internal_audio_recorder">internal audio recorder</string>
+    <string name="bluetooth_audio_recorder">bluetooth audio recorder</string>
     <string-array name="seconds">
         <item>5</item>
         <item>10</item>

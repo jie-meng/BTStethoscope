@@ -1,9 +1,9 @@
 package com.thoughtworks.btstethoscope.components.audiorecorder
 
 interface AudioRecorder {
-    fun start(): Pair<Boolean, String>
+    fun name(): String
+
+    fun start()
 
     fun stop()
-
-    fun isRecording(): Boolean
 }

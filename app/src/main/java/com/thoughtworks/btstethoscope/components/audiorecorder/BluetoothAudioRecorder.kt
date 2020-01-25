@@ -8,24 +8,26 @@ import android.media.AudioManager
 import android.media.MediaRecorder
 import android.os.Environment
 import android.util.Log
+import com.thoughtworks.btstethoscope.R
 import com.thoughtworks.btstethoscope.definitions.APP_TAG
 import com.thoughtworks.btstethoscope.definitions.RECORD_FILENAME
 import com.thoughtworks.btstethoscope.utils.AudioUtils
 import java.io.File
 
-class BluetoothVoiceAudioRecorder(private val context: Context) : AudioRecorder {
-
-    private val audioRecorder = com.github.piasy.rxandroidaudio.AudioRecorder.getInstance()
+class BluetoothAudioRecorder(private val context: Context) : AudioRecorder {
+    override fun name(): String {
+        return context.getString(R.string.bluetooth_audio_recorder)
+    }
 
     private lateinit var mediaRecorder: MediaRecorder
 
     private var started = false
 
-    override fun start(): Pair<Boolean, String> {
+    override fun start() {
         val manager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
         if (!manager.isBluetoothScoAvailableOffCall) {
-            return Pair(false, "System does not support bluetooth record")
+            return
         }
 
         manager.startBluetoothSco()
@@ -45,7 +47,7 @@ class BluetoothVoiceAudioRecorder(private val context: Context) : AudioRecorder 
             }
         }, IntentFilter(AudioManager.ACTION_SCO_AUDIO_STATE_UPDATED))
 
-        return Pair(true, "")
+        return
     }
 
     private fun recorderStart() {
@@ -72,9 +74,5 @@ class BluetoothVoiceAudioRecorder(private val context: Context) : AudioRecorder 
         AudioUtils.changeToSpeaker(context!!)
 
         started = false
-    }
-
-    override fun isRecording(): Boolean {
-        return audioRecorder.isStarted
     }
 }
